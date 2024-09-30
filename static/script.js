@@ -1,86 +1,108 @@
-$(function() {
-    // check if the correct checkbox is selected.
-    function validateX() {
-        return $('.x-checkbox:checked').length === 1; // Đảm bảo chỉ 1 checkbox được chọn
-    }
+const xCheckboxes = document.getElementsByName('x-checkbox');
+const yField = document.querySelector('input[name="yField"]');
+const rButtons = document.getElementsByName('r-button');
+const submitButton = document.querySelector('[name="submit-button"]');
+const resetButton = document.querySelector('[name="reset-button"]');
+let x;
+let y; 
+let r; 
 
-    // check if the value of input box Y
-    function validateY() {
-        const y_min = -3;
-        const y_max = 5;
-
-        let yField = $('input[name="yval"]');
-        let numY = yField.val().replace(',', '.');
-
-        return numY >= y_min && numY <= y_max;
-    }
-
-    // check if one of the buttons has been pressed
-    function validateR() {
-        return $('.value-and-box input[type="button"].selected').length === 1; // Kiểm tra nếu có nút R được chọn
-    }
-
-    function validateForm() {
-        console.log("Validating form...");
-        return validateX() && validateY() && validateR();
-    }
-
-    $('#reset button').on('click', function() {
-        $('#input-form')[0].reset(); // Đặt lại biểu mẫu
-        $('.button').attr('disabled', false); // Kích hoạt lại các nút
-        $('.value-and-box input[type="button"]').removeClass('selected'); // Xóa các lựa chọn
-        $('.x-checkbox').prop('checked', false); // Bỏ chọn tất cả checkbox X
-    });
-
-    // Chỉ cho phép chọn 1 checkbox trong nhóm
-    $('.x-checkbox').on('click', function() {
-        console.log("x-click...");
+Array.from(xCheckboxes).forEach(function(checkbox) {
+    checkbox.addEventListener('click', function() {
         if (this.checked) {
-            $('.x-checkbox').not(this).prop('checked', false); // Bỏ chọn các checkbox khác
+            x = this.value;
         }
-    });
-
-    //R button 
-    $('.value-and-box input[type="button"]').on('click', function() {
-        console.log("r-click...");
-        $('.value-and-box input[type="button"]').removeClass('selected'); // Xóa các lựa chọn trước đó
-        $(this).addClass('selected'); // Đánh dấu nút hiện tại là đã chọn
-    });
-
-    $('#input-form').on('submit', function(event) {
-        console.log("submit...");
-
-        event.preventDefault(); // Prevent default form action
-        if (!validateForm()) return; // Check form validity
-
-        $.ajax({
-            url: "helios.cs.ifmo.ru:27357/fcgi-bin/server-1.0-jar-with-dependencies.jar", // URL to send request
-            method: 'POST', // HTTP method
-            data: $(this).serialize() + '&timezone=' + new Date().getTimezoneOffset(), // Data to send
-            dataType: "json", // Expected data type from server
-            beforeSend: function() {
-                $('.button').attr('disabled', 'disabled'); // Disable buttons before sending
-            },
-            success: function(data) {
-                $('.button').attr('disabled', false); // Enable buttons after response
-                if (data.validate) {  // Check response from server
-                    // Create a new row in the result table
-                    let newRow = '<div>';
-                    newRow += '<div class="column-result">' + data.xval + '</div>';
-                    newRow += '<div class="column-result">' + data.yval + '</div>';
-                    newRow += '<div class="column-result">' + data.rval + '</div>';
-                    newRow += '<div class="column-result">' + data.curtime + '</div>';
-                    newRow += '<div class="column-result">' + data.exectime + '</div>';
-                    newRow += '<div class="column-result">' + data.hitres + '</div>';
-                    newRow += '</div>';
-
-                    $('#result').append(newRow);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $('.button').attr('disabled', false); // Kích hoạt lại các nút
-                console.error("Error: " + textStatus, errorThrown); // In lỗi ra console
-            }
-        });
-    });
+    })
 });
+
+function getYValue() {
+    y = yField.value;
+};
+
+Array.from(rButtons).forEach(function(rButton) {
+    rButton.addEventListener('click', function(){
+        r = this.value;
+    })
+});
+
+resetButton.addEventListener('click', function() {
+    document.getElementById('input-form').reset(); // Đặt lại biểu mẫu
+
+});
+
+function validateForm(){
+    const y_min = -3;
+    const y_max = 5;
+    if (y < y_min || y > y_max) {
+        console.log('Value of y is not accepted!');
+        return false;
+    }
+    return true;
+};
+
+submitButton.addEventListener('click', function(event) {
+    console.log("submit...");
+
+    getYValue();
+    if (!validateForm()) return;
+    event.preventDefault(); // Ngăn chặn hành động mặc định của form
+    
+
+    var xhr = new XMLHttpRequest(); // Tạo đối tượng XMLHttpRequest
+    xhr.open('POST', 'http://localhost:8080/fcgi-bin/server-1.0-jar-with-dependencies.jar', true); // Thiết lập phương thức và URL
+
+    // Thiết lập header để nhận dữ liệu dưới dạng JSON
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');   //?
+
+    // Lấy dữ liệu từ form; Dữ liệu sẽ được gửi
+    var form = document.getElementById('input-form'); // Lấy form từ DOM
+    var data = new URLSearchParams(new FormData(form)).toString() + '&timezone=' + new Date().getTimezoneOffset();
+    let requestTime = new Date().getTimezoneOffset();
+
+    // Sự kiện trước khi gửi
+    xhr.onloadstart = function() {
+        document.querySelector('.button').disabled = true; // Vô hiệu hóa nút trước khi gửi
+    };
+
+    // Xử lý phản hồi từ server (AJAX)
+    xhr.onload = function() {
+        document.querySelector('.button').disabled = false; // Kích hoạt lại nút sau khi nhận phản hồi
+        if (xhr.status === 200) {
+            try {
+                console.log(xhr.responseText);  //debug 
+                var responseData = JSON.parse(xhr.responseText); // Phân tích phản hồi JSON
+                if (responseData.validate) {
+                    // Tạo một hàng mới trong bảng kết quả
+                    var newRow = document.createElement('div');
+                    newRow.innerHTML = `
+                        <div class="column-result">${responseData.x}</div>
+                        <div class="column-result">${responseData.y}</div>
+                        <div class="column-result">${responseData.r}</div>
+                        <div class="column-result">${new Date().getTimezoneOffset()}</div>
+                        <div class="column-result">${responseData.responseTime}</div>
+                        <div class="column-result">${responseData.inArea}</div>
+                    `;
+                    document.getElementById('result').appendChild(newRow); // Thêm hàng mới vào kết quả
+                }
+            } catch (e) {
+                console.error("Response is not valid JSON:", e);
+                console.error("Response Text:", xhr.responseText);
+            }
+        } else {
+            console.error("Error: " + xhr.statusText); // In lỗi ra console
+        }
+    };
+    
+
+    // Xử lý lỗi
+    xhr.onerror = function() {
+        document.querySelector('.button').disabled = false; // Kích hoạt lại nút
+        console.error("Error: " + xhr.statusText); // In lỗi ra console
+    };
+
+    xhr.send(data); // Gửi dữ liệu
+});
+
+
+
+
