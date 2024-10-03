@@ -3,7 +3,7 @@
 #==Kết nối ứng dụng trên helios (=cmd)==#
 
 #Kết nối với tài khoản helios đi kèm portbase 27357
-ssh -L 27357:localhost:27357 -p 2222 s374806@helios.cs.ifmo.ru
+ssh -L 8080:localhost:27357 -p 2222 s374806@helios.cs.ifmo.ru
 
 #Cấu trúc thư mục yêu cầu
 httpd-root
@@ -34,8 +34,8 @@ httpd -f ~/httpd-root/conf/httpd.conf  -k stop
 
 #Chạy ứng dụng server jar 
 cd httpd-root/fcgi-bin/ 
-java -jar -DFCGI_PORT=37480 ~/httpd-root/fcgi-bin/server-1.0-jar-with-dependencies.jar
-#DFCGI_PORT=37480 được thiết lập trong file "httpd.conf"
+java -jar -DFCGI_PORT=20031 ~/httpd-root/fcgi-bin/server-1.0-jar-with-dependencies.jar
+#DFCGI_PORT=20031 được thiết lập trong file "httpd.conf"
 #Khi chạy thành công sẽ hiển thị: Picked up _JAVA_OPTIONS: -XX:MaxHeapSize=1G -XX:MaxMetaspaceSize=128m
 
 #==Terminal bên trong Intellji Idea==#
@@ -51,7 +51,7 @@ mvn clean install
 #==Mở localhost trên trình duyệt web=#
 
 #Nhập đường link sau khi kích hoạt máy ảo trên helios
-http://localhost:27357/
+http://localhost:8080/
 
 #==Trong file script==#
 url:'/fcgi-bin/server-1.0-jar-with-dependencies.jar', // URL để gửi yêu cầu

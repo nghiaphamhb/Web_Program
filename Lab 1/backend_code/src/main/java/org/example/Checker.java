@@ -1,18 +1,21 @@
 package org.example;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class ParamsChecker {
-    public static ServerResponse check(ClientRequest request){
-        float x = request.getX();
-        float y = request.getY();
-        float r = request.getR();
+public class Checker {
+    public static ResponseBody hit(RequestParams params){
+        float x = params.getX();
+        float y = params.getY();
+        float r = params.getR();
 
         if (isInTriangle(x, y, r) ||  isInSector(x, y, r) || isInRectangle(x, y, r)) {
-            return new ServerResponse(x, y, r, true, LocalDateTime.now().toLocalTime().toString());
+            return new ResponseBody(x, y, r, true, LocalDateTime.now().toLocalTime().toString()
+                    .formatted(DateTimeFormatter.ofPattern("HH:mm:ss")));
         }
         else {
-            return new ServerResponse(x, y, r, false, LocalDateTime.now().toLocalTime().toString());
+            return new ResponseBody(x, y, r, false, LocalDateTime.now().toLocalTime().toString()
+                    .formatted(DateTimeFormatter.ofPattern("HH:mm:ss")));
         }
     }
 
@@ -35,7 +38,7 @@ public class ParamsChecker {
             return false;
         }
         else {
-            return (x >= -r) && (y <= (x+r)/2);
+            return (x >= -r) && (y <= (float)(x+r)/2);
         }
     }
 }

@@ -1,20 +1,142 @@
-<html lang="en"><head>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Web-project #1</title>
+    <style>
+        /* ==wrapper== */
+        #wrapper {
+            background-color: rgb(216, 221, 248);
+        }
+
+        /* ==header bar==  */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(82, 149, 248);
+            padding: 20px;
+            margin: 10px;
+            font-size: larger;
+        }
+
+        /* ==content box==  */
+        #content {
+            padding: auto;
+            /*ko co tac dung */
+        }
+
+        /* ==top content==  */
+        #top-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        /* --graph box-- */
+        .left-content {
+            width: 25%;
+            background-color: #ffffff;
+        }
+
+        .title {
+            text-align: center;
+            padding: 10px;
+            background-color: rgb(82, 149, 248);
+            color: #ffffff;
+        }
+
+        .image {
+            display: flex;
+            justify-content: center;
+            /* Center the content horizontally; Can gi?a cho flex items */
+            padding: 10px;
+        }
+
+        /* --table result-- */
+        #table {
+            width: 74%;
+            background-color: #ffffff;
+        }
+
+        #result, .result-row {
+            display: flex;
+            /* S?p x?p các ph?n t? theo hàng */
+            width: 100%;
+            /* Ð?m b?o chi?u r?ng 100% d? có không gian can gi?a */
+        }
+        #result-rows {
+            overflow-y: auto;
+            max-height: 250px;
+        }
+        .column-result {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+        }
+        .title-column-result {
+            background-color: rgb(147, 174, 241);
+        }
+
+        /* ==low content== */
+        #low-content {
+            padding: 10px;
+        }
+
+        #value-box {
+            padding: 10px;
+        }
+
+        .value-row {
+            display: flex;
+        }
+
+        .value-name {
+            padding: 10px;
+        }
+
+        #text {
+            padding: 10px;
+            width: 100%;
+        }
+
+        .value-and-box {
+            width: 100%;
+            margin: 5px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        /* --button-- */
+        #control-box {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            padding: 5px;
+        }
+
+        /* ==Others setting== */
+        .box-error {
+            color: red;
+        }
+    </style>
 </head>
+
 <body>
     <div id="wrapper">
         <!-- Header -->
         <div id="header">
-            <div id="author-name" class="title">
-                Pham Dang Trung Nghia 
+            <div class="title">
+                Pham Dang Trung Nghia
             </div>
-            <div id="author-group" class="title">
+            <div class="title">
                 P3221
             </div>
-            <div id="author-variant" class="title">
+            <div class="title">
                 #374806
             </div>
         </div>
@@ -34,74 +156,75 @@
                 <div id="table">
                     <div class="title">Table</div>
                     <div id="result">
-                        <div class="column-result">
+                        <div class="column-result title-column-result">
                             X
-                        </div> 
-                        <div class="column-result">
+                        </div>
+                        <div class="column-result title-column-result">
                             Y
-                        </div> 
-                        <div class="column-result">
+                        </div>
+                        <div class="column-result title-column-result">
                             R
-                        </div> 
-                        <div class="column-result">
+                        </div>
+                        <div class="column-result title-column-result">
                             Sent time
-                        </div> 
-                        <div class="column-result">
+                        </div>
+                        <div class="column-result title-column-result">
                             Execution time
-                        </div> 
-                        <div class="column-result">
+                        </div>
+                        <div class="column-result title-column-result">
                             Hit result
-                        </div> 
+                        </div>
                     </div>
-                    
+                    <div id="result-rows"></div>
+
                 </div>
             </div>
             <!-- Values -->
             <div id="low-content">
-                <div id="input-box" class="left-content">
+                <div class="left-content">
                     <div class="title">
                         Values
                     </div>
-                    <form id="input-form" method="post">
+                    <form id="form" method="post">
                         <div id="value-box">
                             <div id="X" class="value-row">
                                 <div class="value-name">
                                     X:
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="-3" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="-3" name="x-checkbox">
                                     <label class="x-label" for="-3">-3</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="-2" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="-2" name="x-checkbox">
                                     <label class="x-label" for="-2">-2</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="-1" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="-1" name="x-checkbox">
                                     <label class="x-label" for="-1">-1</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="0" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="0" name="x-checkbox">
                                     <label class="x-label" for="0">0</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="1" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="1" name="x-checkbox">
                                     <label class="x-label" for="1">1</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="2" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="2" name="x-checkbox">
                                     <label class="x-label" for="2">2</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="3" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="3" name="x-checkbox">
                                     <label class="x-label" for="3">3</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="4" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="4" name="x-checkbox">
                                     <label class="x-label" for="4">4</label>
                                 </div>
                                 <div class="value-and-box">
-                                    <input class="x-checkbox" type="checkbox" id="5" name="x-checkbox">
+                                    <input class="x-checkbox" type="checkbox" value="5" name="x-checkbox">
                                     <label class="x-label" for="5">5</label>
                                 </div>
                             </div>
@@ -110,7 +233,7 @@
                                     Y:
                                 </div>
                                 <div id="text">
-                                    <input placeholder="Number from -3 to 5..." type="number" name="yField">
+                                    <input placeholder="Number from -3 to 5..." type="number" id="yField">
                                 </div>
                             </div>
                             <div id="R" class="value-row">
@@ -136,19 +259,21 @@
                         </div>
                         <div id="control-box">
                             <div class="button">
-                                <button value="submit" name="submit-button" >Submit</button>
+                                <button value="submit" id="submit-button">Submit</button>
                             </div>
                             <div class="button">
-                                <button value="reset" name="reset-button">Reset</button>
+                                <button value="reset" id="reset-button">Reset</button>
                             </div>
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-<script src="./script.js"></script>
+    <script src="./script.js"></script>
 
-</body></html>
+</body>
+
+</html>
