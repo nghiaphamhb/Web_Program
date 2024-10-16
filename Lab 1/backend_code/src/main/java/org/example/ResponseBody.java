@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Object response body
+ */
 public class ResponseBody {
     private float x;
     private float y;

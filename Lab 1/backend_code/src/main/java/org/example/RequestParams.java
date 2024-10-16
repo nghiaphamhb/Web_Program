@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Object of request params
+ */
 public class RequestParams {
     private float x;
     private float y;

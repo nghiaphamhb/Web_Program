@@ -1,25 +1,23 @@
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("form");
-    const errorDiv = document.createElement("div");
     const submitButton = document.getElementById("submit-button");
     const resetButton = document.getElementById("reset-button");
-    let rValue;
-    errorDiv.style.color = "red";
-    errorDiv.style.backgroundColor = "yellow";
-    form.appendChild(errorDiv);
-    let sentTime;
+    let xValue = NaN;
+    let yValue = NaN;
+    let rValue = NaN;
+    let sendTime;
 
+    //reset button 
     resetButton.addEventListener("click", function(){
         form.reset();
-        errorDiv.innerHTML = "";
     });
 
-    //only get x value
+    //choose only 1 check boxes of x 
     const checkboxes = document.querySelectorAll("input[name='x-checkbox']");
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
-                // B? ch?n t?t c? các checkbox khác
+                //Unselected others boxes 
                 checkboxes.forEach(otherCheckbox => {
                     if (otherCheckbox !== checkbox) {
                         otherCheckbox.checked = false;
@@ -28,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }});
     });
 
-    // get r value
+    // get r value by click the buttons 
     const buttons = document.querySelectorAll("input[name='r-button']");
     buttons.forEach(button => {
         button.addEventListener('click', () => {
@@ -36,67 +34,55 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-
+    //submit button 
     submitButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        sentTime = new Date().toLocaleTimeString('vi-VN', { hour12: false }); 
+        event.preventDefault(); //Prevent default action (redirect to page, ...) to fetch
+        sendTime = new Date().toLocaleTimeString('vi-VN', { hour12: false }); 
 
-        const xValue = parseFloat(document.querySelector("input[name='x-checkbox']:checked")?.value);
-        const yValue = parseFloat(document.getElementById("yField").value);
-        // const rValue = parseFloat(document.querySelector("input[name='r-button']:checked").value); 
-        console.log("x=" + xValue + "&&" + "y=" + yValue + "&&" + "r=" + rValue); 
+        //get x and y values 
+        xValue = parseFloat(document.querySelector("input[name='x-checkbox']:checked")?.id);
+        yValue = parseFloat(document.getElementById("yField").value);
 
+        const data = {
+            x: xValue,
+            y: yValue,
+            r: rValue
+        };
+        console.log(data); //check out send data 
 
-        let errorMessage = "";
-        if (isNaN(xValue)) {
-            errorMessage += "Only choose one value of X.<br>";
-        }
-        if (isNaN(yValue) || yValue < -3 || yValue > 5) {
-            errorMessage += "Y should be selected from the range -3 to 5.<br>";
-        }
-        if (isNaN(rValue)) {
-            errorMessage += "The R value must be selected.<br>";
-        }
-
-        if (errorMessage) {
-            errorDiv.innerHTML = errorMessage;
-            return;
-        }
-
-        errorDiv.innerHTML = "";
-
-        // const data = {
-        //     x: xValue,
-        //     y: yValue,
-        //     r: rValue
-        // };
-
-        const data = "x=" + xValue + "&&y=" + yValue + "&&r=" + rValue;
-
+        let statusCode;
         fetch('http://localhost:8080/fcgi-bin/server-1.0-jar-with-dependencies.jar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data)   //json to string 
         })
-            .then(response => response.json())
-            .then(data => {
+        .then(response => {
+            statusCode = response.status;
+            return response.json();
+        })
+        .then(data => {
+            if(statusCode == 400){ // 400 Bad Request 
+                errorMessage = JSON.stringify(data).replace("java.lang.NumberFormatException:", "");
+                errorMessage = errorMessage.replaceAll("\"", "");
+                errorMessage = errorMessage.replaceAll("*", "\n");
+                errorMessage = "400 Bad Request:" + errorMessage;
+
+                alert(errorMessage);
+            } 
+            else {  // 200 OK 
                 console.log("Server answer:", data);
-                if (data.error === undefined) {
-                    updateTable(data);
-                } else {
-                    errorDiv.innerHTML = "Error in Server: " + data.error;
-                }
-                
+                updateTable(data);
+                } 
             })
             .catch(error => {
-                errorDiv.innerHTML = "Mistake while sending: " + error;
+                alert("Mistake while sending: " + error)
             });
     });
 
 
-
+    //update result table 
     function updateTable(result) {
         const tableBody = document.getElementById("result-rows");
         const newRow = document.createElement("div");
@@ -105,11 +91,11 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="column-result">${result.x}</div>
             <div class="column-result">${result.y}</div>
             <div class="column-result">${result.r}</div>
-            <div class="column-result">${sentTime}</div>
+            <div class="column-result">${sendTime}</div>
             <div class="column-result">${result.responseTime}</div>
-            <div class="column-result">${result.inArea === true ? 'true' : 'false'}</div>
+            <div class="column-result">${result.inArea === true ? 'True' : 'False'}</div>
         `;
-        tableBody.appendChild(newRow); // Thêm hàng m?i vào k?t qu?
+        tableBody.appendChild(newRow); // add new row 
     }
     
 });
