@@ -15,7 +15,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         var fcgiInterface = new FCGIInterface();
-
         while (fcgiInterface.FCGIaccept() >= 0) {
             String requestBody = readRequestBody();
             try{
