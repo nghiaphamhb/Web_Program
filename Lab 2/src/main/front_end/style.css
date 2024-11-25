@@ -1,0 +1,132 @@
+
+    /* ==wrapper== */
+#wrapper {
+    background-color: rgb(216, 221, 248);
+}
+
+/* ==header bar==  */
+#header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(82, 149, 248);
+    padding: 20px;
+    margin: 10px;
+    font-size: larger;
+}
+
+/* ==content box==  */
+/*#content {*/
+/*    padding: auto;*/
+/*    !*ko co tac dung *!*/
+/*}*/
+
+/* ==top content==  */
+#top-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* --graph box-- */
+.left-content {
+    width: 25%;
+    background-color: #ffffff;
+}
+
+.title {
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(82, 149, 248);
+    color: #ffffff;
+}
+
+/* graphic */
+.image {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.axis-text {
+    fill: rgb(0, 0, 0);
+    font-family: serif;
+    font-size: 10px;
+}
+
+.axis-line {
+    stroke: rgb(0, 0, 0);
+    stroke-width: 0.5;
+}
+rect, path, polygon {
+    fill: rgba(82, 149, 248, 0.478);
+}
+
+/* --table result-- */
+#table {
+    width: 74%;
+    background-color: #ffffff;
+}
+
+#result, .result-row {
+    display: flex;
+    /* Sắp xếp các phần tử theo hàng */
+    width: 100%;
+    /* Đảm bảo chiều rộng 100% để có không gian căn giữa */
+}
+#result-rows {
+    overflow-y: auto;
+    max-height: 300px;
+}
+.column-result {
+    flex: 1;
+    padding: 5px;
+    text-align: center;
+}
+.title-column-result {
+    background-color: rgb(147, 174, 241);
+}
+
+/* ==low content== */
+#low-content {
+    padding: 10px;
+}
+
+#value-box {
+    padding: 10px;
+}
+
+.value-row {
+    display: flex;
+}
+
+.value-name {
+    padding: 10px;
+}
+
+#text {
+    padding: 10px;
+    width: 100%;
+}
+
+.value-and-box {
+    width: 100%;
+    margin: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* --button-- */
+#control-box {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    padding: 5px;
+}
+
+/* ==Others setting== */
+.box-error {
+    color: red;
+}

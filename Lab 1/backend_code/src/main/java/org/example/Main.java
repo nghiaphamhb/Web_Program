@@ -25,11 +25,6 @@ public class Main {
             }
             catch(Exception e) {
                 sendErrResponse(e.toString());
-                //to know where has wrong codes
-//                StringWriter sw = new StringWriter();
-//                PrintWriter pw = new PrintWriter(sw);
-//                e.printStackTrace(pw);
-//                sendErrResponse(sw.toString());
             }
         }
     }
@@ -99,7 +94,7 @@ public class Main {
     private static void sendResponse(ResponseBody responseBodyObject){
         String responseBody = gson.toJson(responseBodyObject);
         String response = String.format("""
-                        HTTP/1.1 200 OK
+//                        HTTP/1.1 200 OK
                         Content-Type: application/json
                         Content-Length: %d
                         
