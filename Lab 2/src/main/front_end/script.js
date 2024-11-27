@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     resetButton.addEventListener("click", function () {
         form.reset();
-        fetch('http://127.0.0.1:8080/webLab2-1.0/controller', {
+        // fetch('http://127.0.0.1:26050/webLab2-1.0/controller', {
+        fetch('http://localhost:26050/webLab2-1.0/controller', {
             method: 'DELETE'
         })
             .then(response => {
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const jsonData = JSON.stringify(data); // change formData to JSON
         console.log("INFO: " + jsonData); // check it
 
-        fetch('http://127.0.0.1:8080/webLab2-1.0/controller',  //send data
+        fetch('http://localhost:26050/webLab2-1.0/controller',  //send data
             {
                 method: 'POST',
                 headers: {
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log("INFO: No content in response.");
                 }
                 if (queryString){
-                    window.location.href = `http://127.0.0.1:8080/webLab2-1.0/result_page.jsp?${queryString}`;
+                    window.location.href = `http://localhost:26050/webLab2-1.0/result_page.jsp?${queryString}`;
                 }
             })
             .catch(error => {
@@ -188,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * Fetch saved points from servlet context
      */
     function fetchSavedPoints() {
-        fetch('http://127.0.0.1:8080/webLab2-1.0/checkArea')
+        fetch('http://localhost:26050/webLab2-1.0/checkArea')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
