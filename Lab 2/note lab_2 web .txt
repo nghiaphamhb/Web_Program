@@ -1,0 +1,39 @@
+TH1: Test code trên local - Cài đặt wildfly trên máy local 
+
+1. Tải wildfly.zip
+2. Giải nén
+3. Vào thư mục giải nén > Vào thư mục Bin (cd .\bin\) > Mở terminal in here
+4. Chạy các lệnh sau:
+.\add-user.bat  -> tạo tài khoản (np1612/Np1612) *Lưu ý: Nếu đánh thừa dấu cách cũng báo lỗi 
+.\standalone.bat   -> kích hoạt wildfly
+5. Đợi bash chạy xong, mở browser và nhập:
+localhost:8080
+6. Sau khi truy cập, tiếp tục thao tác:
+Administration console -> Deployments -> Context Root 
+7. Thêm file war đã tạo rồi kích hoạt (câu lệnh tạo war trong terminal-intelji idea: mvn compile war:war )
+
+TH2: Bắt đầu cài đặt wildfly chạy trên helios 
+0. Lúc này, hãy giải nén lại file wildfly.zip và xóa file đã giải nén cũ đi (bởi vì trong file giải nén cũ có lưu lại các cài đặt cũ không phù hợp)
+1. Chuyển file đã giải nén vào helios bằng WinSCP
+2. Bắt đầu thiết lập wildfly như sau:
++Vào thư mục standalone > configuration
++ Chỉnh sửa file standalone.xml
++ + Thay toàn bộ 127.0.0.1 thành 0.0.0.0
++ + Ở <socket-binding-group> (ở cuối file) thay toàn bộ port khác nhau
++ + Hoàn tất chỉnh sửa
+
++ Di chuyển sang thư mục bin
++ + Cấp quyền cho add-user.sh : chmod 777 add-user.sh
++ + Cấp quyền cho standalone.sh : chmod 777 standalone.sh
+  
+3. Di chuyển ra thư mục root: cd ~
+4. Tiến hành chạy wildfly: wildfly-34.0.1.Final/bin/standalone.sh
+5. Mở thêm 2 trang window powershell nữa và đăng nhập (Khởi động portbase lắng nghe) 
+ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26050:helios:26050
+ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26051:helios:26050
+6. Sau khi chạy wildfly xong, mở browser và nhập: localhost:26050
+(Lưu ý: chỉnh sửa lại URL trong code cho đúng, tạo lại file war mới rồi mới deploy trên wildfly)
+
+
+
+
