@@ -1,0 +1,230 @@
+/* 1. Font và tổng quan */
+@font-face {
+    font-family: 'press start 2p';
+    font-style: normal;
+    font-weight: 150;
+    src: local('Press Start 2P'), url(https://fonts.cdnfonts.com/s/15306/PressStart2P-Regular.woff) format('woff');
+}
+
+* {
+    font-family: "press start 2p", serif;
+    background: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 2. Header */
+.header {
+    text-align: center;
+    padding: 20px;
+    color: rgb(82, 149, 248);
+    border-radius: 8px 8px 0 0;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+.header h2 {
+    margin: 5px 0;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+/* 3. Form */
+.form {
+    max-width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.form .x-select, .form .y-text, .form .r-select {
+    margin-bottom: 20px;
+}
+
+.form label {
+    font-weight: bold;
+}
+
+/* 3.1 Checkbox Layout */
+.x-select-label {
+    margin-bottom: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+.x-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.x-select div {
+    text-align: center;
+}
+
+.x-select h\:selectBooleanCheckbox {
+    display: block;
+    margin: 0 auto;
+    width: 20px;
+    height: 20px;
+    accent-color: rgb(82, 149, 248);
+    cursor: pointer;
+    transform: scale(1.5);
+}
+
+.x-select label {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: rgb(82, 149, 248);
+}
+
+/* 3.2 Input Text Layout */
+.y-text input.y {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* 3.3 Warning Messages */
+.warning {
+    color: #e74c3c;
+    font-size: 0.9em;
+}
+
+/* 4. Buttons */
+.button-wrap {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.button {
+    background-color: rgb(82, 149, 248);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: rgb(82, 90, 248);
+}
+
+/* Button khi được chọn */
+.r-checked {
+    background-color: rgb(82, 90, 248);
+    color: white;
+    border: 2px solid rgb(82, 149, 248);
+    font-weight: bold;
+}
+
+/* Container để căn chỉnh các nút đều nhau */
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+/* 5. Layout chung */
+.content {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 5.1 Graph Area */
+.graph {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(82, 149, 248);
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.graph-title {
+    font-size: 1.5em;
+    background-color: rgb(82, 149, 248);
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+canvas {
+    background-color: #eaf3fc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 5.2 Results Table */
+.results-holder {
+    flex: 2;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-height: 464px;
+    overflow-y: auto;
+}
+
+.results {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results th, .results td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.results th {
+    position: sticky;
+    top: 0;
+    background-color: rgb(82, 149, 248);
+    color: white;
+    z-index: 1;
+}
+
+.results tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.results tr:hover {
+    background-color: #ddd;
+}

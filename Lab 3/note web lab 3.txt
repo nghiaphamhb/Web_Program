@@ -1,0 +1,53 @@
+1. Test ở localhost:
+Phím tắt: Ctrl + F5 -> xóa bộ nhớ đệm trước đó 
+Link browser: http://127.0.0.1:9990/console/index.html
+Tải pgadmin4: 
++ port: 12345
++ user: postgres
++ password: np1612 
+Thiết lập trong wildfly23 (tải phiên bản 23.0.0 vì chỉ sử dụng javax):
+- Tạo modules/org/postgresql/main/ (module.xml + postgresql_vesion bất kì.jar )
+- Thư mục standalone/configuration/standalone.xml 
++ Trong thẻ datasources/datasource
+<datasources>
+                <datasource jndi-name="java:jboss/datasources/postgresDS" pool-name="postgresDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+                    <connection-url>jdbc:postgresql://localhost:12345/postgres</connection-url>
+                    <driver>postgresql</driver>
+                    <security>
+                        <user-name>postgres</user-name>
+                        <password>np1612</password>
+                    </security>
+                </datasource>
+                <drivers>
+                    <driver name="postgresql" module="org.postgresql">
+                        <driver-class>org.postgresql.Driver</driver-class>
+                    </driver>
+                </drivers>
+            </datasources>
++ Trong thẻ <default-bindings>: Tìm và sửa các thuộc tính datasource thành:  datasource="java:jboss/datasources/postgresDS"
+
+2. Test ở helios:
+Chuyển thư mục wildfly-23.0.0 vào helios.
+Trong standalone.xml: 
++ Đổi link liên kết db: <connection-url>jdbc:postgresql://pg:5432/studs</connection-url>
++ Chỉnh lại các port tùy ý:
+<socket-binding name="ajp" port="${jboss.ajp.port:26000}"/>
+        <socket-binding name="http" port="${jboss.http.port:26001}"/>
+        <socket-binding name="https" port="${jboss.https.port:26002}"/>
+        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:26003}"/>
+        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:26004}"/>
+        <socket-binding name="txn-recovery-environment" port="26005"/>
+        <socket-binding name="txn-status-manager" port="26006"/>
++ Đổi hết (3) mục bind.address: 127.0.0.1 thành 0.0.0.0
+
+Cấp quyền cho các file sau:
++ chmod 777 wildfly-23.0.0.Final/bin/standalone.sh
++ chmod 777 wildfly-23.0.0.Final/bin/add-user.sh
+
+Mở thêm 2 window powershell để kích hoạt 2 server lắng nghe:
++ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26001:helios:26001
++ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26003:helios:26003
+
+Cần tạo tài khoản: wildfly-34.0.1.Final/bin/add-user.sh
+Mở server: wildfly-34.0.1.Final/bin/standalone.sh
+

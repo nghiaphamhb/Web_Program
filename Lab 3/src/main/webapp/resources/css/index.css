@@ -1,0 +1,50 @@
+/* 1. Font và tổng quan */
+@font-face {
+    font-family: 'press start 2p';
+    font-style: normal;
+    font-weight: 150;
+    src: local('Press Start 2P'), url(https://fonts.cdnfonts.com/s/15306/PressStart2P-Regular.woff) format('woff');
+}
+
+* {
+    font-family: "press start 2p", serif;
+    background: white;
+}
+
+/* 2. Header */
+.header {
+    padding: 12px;
+    text-align: left; /* Căn trái nội dung tiêu đề */
+}
+
+h1, h2, h3 {
+    color: rgb(82, 149, 248);
+    font-size: 24px;
+    line-height: 0.5em;
+}
+
+/* Điều chỉnh kích thước cho các tiêu đề nhỏ hơn */
+h2 {
+    font-size: 16px;
+}
+
+h3 {
+    font-size: 12px;
+}
+
+/* 3. Liên kết (Link) */
+a {
+    color: rgb(82, 149, 248);
+    line-height: 0.5em;
+    font-size: 16px;
+}
+
+a:hover {
+    transition: 0.5s;
+    color: rgb(82, 90, 248);
+}
+
+/* 4. Clock Container */
+.clock-container {
+    text-align: center;
+}

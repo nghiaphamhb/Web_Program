@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Main Page</title>
+    <h:outputStylesheet library="css" name="main.css"/>
+</h:head>
+<h:body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>Pham Dang Trung Nghia</h1>
+            <h2>P3221</h2>
+            <h2>#94713</h2>
+        </div>
+
+        <div class="content">
+            <div class="graph">
+                <div class="graph-title">
+                    Graph
+                </div>
+                <div>
+                    <canvas id="graphic" width="420px" height="420px"/>
+                </div>
+            </div>
+
+            <div class="results-holder">
+                <h:dataTable value="#{table.getResults()}" var="row" styleClass="results" headerClass="res-header"
+                             rowClasses="res-row" id="results-table">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        <h:outputText value="#{row.x}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        <h:outputText value="#{row.y}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        <h:outputText value="#{row.r}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Hit</f:facet>
+                        <h:outputText value="#{row.hit ? '0K' : 'NO'}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Attempt Time</f:facet>
+                        <h:outputText value="#{row.attemptTime}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="#{timezoner.timezone}"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Execution Time</f:facet>
+                        <h:outputText value="#{row.executionTime}"/>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+
+
+        <h:form styleClass="form" id="form">
+<!--            x field-->
+            <div class="x-field">
+                <div>
+                    <h:outputLabel class="x-select-label">Select X:</h:outputLabel>
+                </div>
+                <div class="x-select group-x">
+                    <div>
+                        <h:selectBooleanCheckbox id="xMinus4" value="#{point.selectedXMinus4}" onclick="updateHiddenXAndToggle(-4);" />
+                        <h:outputText value="-4" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="xMinus3" value="#{point.selectedXMinus3}" onclick="updateHiddenXAndToggle(-3);" />
+                        <h:outputText value="-3" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="xMinus2" value="#{point.selectedXMinus2}" onclick="updateHiddenXAndToggle(-2);" />
+                        <h:outputText value="-2" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="xMinus1" value="#{point.selectedXMinus1}" onclick="updateHiddenXAndToggle(-1);" />
+                        <h:outputText value="-1" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="x0" value="#{point.selectedX0}" onclick="updateHiddenXAndToggle(0);" />
+                        <h:outputText value="0" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="x1" value="#{point.selectedX1}" onclick="updateHiddenXAndToggle(1);" />
+                        <h:outputText value="1" style="margin-top: 5px;" />
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="x2" value="#{point.selectedX2}" onclick="updateHiddenXAndToggle(2);" />
+                        <h:outputText value="2" style="margin-top: 5px;" />
+                    </div>
+                </div>
+                <h:inputHidden id="xHidden" value="#{point.x}" />
+                <div id="x-warning" class="warning" style="color: red; display: none;">
+                    Please select an X value.
+                </div>
+            </div>
+
+<!--            y field -->
+            <div class="y-text">
+                <h:outputLabel for="y">Enter y:</h:outputLabel>
+                <h:inputText id="y" value="#{point.y}" maxlength="12" styleClass="y"/>
+                <h:inputHidden id="yHidden" value="#{point.y}" />
+                <div id="y-warning" class="warning" style="color: red; display: none;">
+                    Please select an y between -5 and 5
+                </div>
+            </div>
+
+<!--            r field-->
+            <div class="r-select">
+                <h:outputLabel>Select R:</h:outputLabel>
+                <!-- Các nút chọn R -->
+                <div id="r-buttons" class="button-container">
+                    <h:commandButton value="1" action="#{point.setR(1)}" styleClass="button" onclick="changeR(this, 1); return false;">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+
+                    <h:commandButton value="1.5" action="#{point.setR(1.5)}" styleClass="button" onclick="changeR(this, 1.5); return false;">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+
+                    <h:commandButton value="2" action="#{point.setR(2)}" styleClass="button" onclick="changeR(this, 2); return false;">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+
+                    <h:commandButton value="2.5" action="#{point.setR(2.5)}" styleClass="button" onclick="changeR(this, 2.5); return false;">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+
+                    <h:commandButton value="3" action="#{point.setR(3)}" styleClass="button" onclick="changeR(this, 3); return false;">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+                </div>
+
+                <!-- Thông báo lỗi -->
+                <h:inputHidden id="rHidden" value="#{point.r}" />
+                <div id="r-warning" class="warning" style="color: red; display: none;">
+                    Please select an R value.
+                </div>
+            </div>
+
+<!--            buttons-->
+            <div class="button-container">
+                <div class="button-wrap" id="submit-wrap">
+                    <h:commandButton id="submit-button" value="check" action="#{point.check}" styleClass="button" onclick="return validateForm(); ">
+                        <f:ajax execute="@form" render="results-table" onevent="addDot()"/>
+                    </h:commandButton>
+                </div>
+
+                <div class="button-wrap" id="clear-wrap">
+                    <h:commandButton id="clear-button" value="clear" action="#{table.clear}" styleClass="button" onclick="hiddenAllWarning(true);">
+<!--                        <f:ajax render="results-table" onevent="clearDots()"/>-->
+                        <f:ajax execute="@this" render="results-table form" onevent="clearDots()" />
+                    </h:commandButton>
+                </div>
+            </div>
+
+            <p:remoteCommand name="setTimezone" action="#{timezoner.setTimezone}"/>
+            <p:remoteCommand name="addPoint" action="#{table.addPoint}"/>
+        </h:form>
+
+        <h:link outcome="goToIndex" class="button-container">
+            To the start page
+        </h:link>
+    </div>
+
+    <h:outputScript library="js" name="main_graphics.js"/>
+    <h:outputScript library="js" name="main_validator.js"/>
+    <h:outputScript library="js" name="main_showWarning.js"/>
+    <h:outputScript library="js" name="main_clicks.js"/>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            provideInteractiveGraphics();
+            let x = JSON.parse('#{table.x}');
+            let y = JSON.parse('#{table.y}');
+            let r = JSON.parse('#{table.r}');
+            let hit = JSON.parse('#{table.hit}');
+            saveDots(x, y, r, hit);
+            let lastR = r.length > 0 ? r[r.length - 1] : null;
+            if (lastR > 0) {
+            drawGraph(lastR);
+            }
+        });
+    </script>
+
+</h:body>
+</html>
