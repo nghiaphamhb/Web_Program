@@ -1,0 +1,28 @@
+Gõ như sau mới thay đổi được vị trí thư mục làm việc 
+> D:
+> cd Desktop\Lab_Web\Lab_4_web_frontend
+
+Chạy lệnh tạo một file package.json cơ bản.
+npm init -y
+
+Mở file package.json và kiểm tra xem có phần script start không:
+"scripts": {
+  "start": "react-scripts start"
+}
+Thêm proxy của backend vào để tạo kết nối: "proxy": "http://localhost:8081"
+
+Chạy lệnh sau để cài đặt hoặc sửa chữa react-scripts (Lệnh này sẽ tải xuống node_modules, package-lock.json và cài đặt react-scripts trong thư mục node_modules của dự án):
+npm install react-scripts
+
+Taoj application.properties trong src\main\resources
+
+Chạy frontend: npm start 
+
+/* Nếu gặp lỗi thiếu các thư viện, dựa vào các lỗi, bạn cần cài đặt các thư viện sau:
+npm install react-redux react-router-dom react-hot-toast @reduxjs/toolkit
+*/
+
+Chạy backend (mở terminal ở nơi chứa file pom.xml):
+mvn spring-boot:run -X
+
+

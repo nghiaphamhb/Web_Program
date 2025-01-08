@@ -30,6 +30,12 @@ Thiết lập trong wildfly23 (tải phiên bản 23.0.0 vì chỉ sử dụng j
 Chuyển thư mục wildfly-23.0.0 vào helios.
 Trong standalone.xml: 
 + Đổi link liên kết db: <connection-url>jdbc:postgresql://pg:5432/studs</connection-url>
++ Sửa lại tài khoản db trên heilos:
+<security>
+                        <user-name>s374806</user-name>
+                        <password>(đăng nhập vào helios trên w powershells xong lấy mk qua câu lệnh cat .pgpass)</password>
+                    </security>
+
 + Chỉnh lại các port tùy ý:
 <socket-binding name="ajp" port="${jboss.ajp.port:26000}"/>
         <socket-binding name="http" port="${jboss.http.port:26001}"/>
@@ -45,9 +51,10 @@ Cấp quyền cho các file sau:
 + chmod 777 wildfly-23.0.0.Final/bin/add-user.sh
 
 Mở thêm 2 window powershell để kích hoạt 2 server lắng nghe:
-+ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26001:helios:26001
-+ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26003:helios:26003
++ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26001:helios:26001   (chạy wildfly)
++ ssh -p 2222 s374806@helios.cs.ifmo.ru -L 26003:helios:26003   (chạy app)
 
 Cần tạo tài khoản: wildfly-34.0.1.Final/bin/add-user.sh
 Mở server: wildfly-34.0.1.Final/bin/standalone.sh
 
+Link browser: http://localhost:26003/console/index.html
